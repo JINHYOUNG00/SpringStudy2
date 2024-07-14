@@ -65,7 +65,7 @@ public class EmpController {
 	}
 	
 	// 수정 - 처리(연산, AJAX => QueryString)
-
+	
 	// 수정 - 처리(연산, AJAX => JSON)
 	
 	// 삭제 - 처리

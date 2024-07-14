@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.dept.mapper.DeptMapper">
+
+<select id="selectDeptAll" resultType="DeptVO">
+	SELECT department_id,
+			department_name,
+			manager_id,
+			location_id
+	FROM dept
+	ORDER BY department_id
+</select>
+
+<select id="selectDeptInfo" resultType="DeptVO">
+	SELECT department_id,
+			department_name,
+			manager_id,
+			location_id
+	FROM dept
+	WHERE department_id = ${departmentId}
+</select>
+
+<insert id="insertDeptInfo" parameterType="DeptVO">
+	<selectKey keyProperty="departmentId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(department_id), 0) + 1
+		FROM dept
+	</selectKey>
+	INSERT INTO DEPT(
+						department_id,
+						department_name,
+						<if test="managerId > 0">
+						manager_id,
+						</if>
+						location_id
+					)
+			VALUES (
+						#{departmentId},
+						#{departmentName},
+						<if test="managerId > 0">
+						#{managerId},
+						</if>
+						#{locationId}
+					)
+</insert>
+
+<update id="updateDeptInfo">
+	UPDATE dept
+	SET department_name = #{dept.departmentName}
+	WHERE department_id = #{id}
+</update>
+
+<delete id="deleteDept" parameterType="int">
+	DELETE FROM dept
+	WHERE department_id = #{departmentId}
+</delete>
+
+
+</mapper>

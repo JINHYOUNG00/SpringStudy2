@@ -44,7 +44,7 @@ public class EmpServiceTest {
 	void selectEmpInfoTest() {
 		// given
 		EmpVO empVO = new EmpVO();
-		empVO.setEmpid(114);
+		empVO.setEmpid(1);
 		// when
 		EmpVO selectEmpInfo = empMapper.selectEmpInfo(empVO);
 		// then
