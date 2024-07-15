@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Thymeleaf Test</h1>
+
+	<th:block th:each="num : ${#numbers.sequence(1,5)}">
+		<p th:text="${num}" />
+	</th:block>
+	<hr>
+	<!--/* 기본 방식 => th:속성="${}" or th:src="@{}" */-->
+	<!--/* text속성 => 템플릿 문법, [[ ]] */-->
+	<p>[[${'사원번호 : ' + empList[0].empid}]]</p>
+	<p>사원이름 : [[${empList[0].empname}]]</p>
+	<p>[[ | 사원이름 : ${empList[0].empname} | ]]</p>
+	<p>[[${empList[0].mgr} ]]</p>
+	<table>
+		<tr>
+			<th>empid</th>
+			<th>empname</th>
+			<th>mgr</th>
+			<th>sal</th>
+			<th>deptid</th>
+			<th>hiredate</th>
+		</tr>
+		<tr th:each="emp : ${empList}">
+			<td th:text="${emp.empid}"></td>
+			<td th:text="${emp.empname}"></td>
+			<td th:text="${emp.mgr}"></td>
+			<td th:text="${emp.sal}"></td>
+			<td th:text="${emp.deptid}"></td>
+			<td th:text="${emp.hiredate}"></td>
+		</tr>
+	</table>
+	<script>
+		let eid = 'Kang';
+		let msg = `사원이름 : ${eid}`;
+		console.log(msg);
+	</script>
+</body>
+</html>

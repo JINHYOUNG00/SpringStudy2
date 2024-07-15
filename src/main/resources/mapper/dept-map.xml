@@ -7,7 +7,7 @@
 			department_name,
 			manager_id,
 			location_id
-	FROM dept
+	FROM dept2
 	ORDER BY department_id
 </select>
 
@@ -16,16 +16,16 @@
 			department_name,
 			manager_id,
 			location_id
-	FROM dept
+	FROM dept2
 	WHERE department_id = ${departmentId}
 </select>
 
 <insert id="insertDeptInfo" parameterType="DeptVO">
 	<selectKey keyProperty="departmentId" resultType="Integer" order="BEFORE">
 		SELECT NVL(MAX(department_id), 0) + 1
-		FROM dept
+		FROM dept2
 	</selectKey>
-	INSERT INTO DEPT(
+	INSERT INTO dept2(
 						department_id,
 						department_name,
 						<if test="managerId > 0">
@@ -44,13 +44,13 @@
 </insert>
 
 <update id="updateDeptInfo">
-	UPDATE dept
+	UPDATE dept2
 	SET department_name = #{dept.departmentName}
 	WHERE department_id = #{id}
 </update>
 
 <delete id="deleteDept" parameterType="int">
-	DELETE FROM dept
+	DELETE FROM dept2
 	WHERE department_id = #{departmentId}
 </delete>
 

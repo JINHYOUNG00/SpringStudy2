@@ -23,7 +23,13 @@ import lombok.RequiredArgsConstructor;
 public class DeptController {
 	
 	private final DeptService deptService;
-	
+
+	/* 롬복의 @RequiredArgsConstructor 애노테이션을 사용하면 final이 있는 필드를 포함한 생성자를 만들어주기 때문에 생략 가능하다  
+	 * @Autowired // 생성자가 하나면 생략 가능 
+	 * public DeptController(DeptService deptService) { 
+	 * 		this.deptService = deptService; 
+	 * }
+	 */
 	// 전체조회
 	@GetMapping
 	public String deptList(Model model) {
@@ -56,9 +62,10 @@ public class DeptController {
 		String url = null;
 		
 		if(dId > -1) {
-			// 정상 등록된 경우
+			// 정상 등록된 경우 등록된 부서 정보 조회페이지로 이동
 			url = "redirect:dept/" + dId;
 		} else {
+			// 등록이 되지않은 경우 부서 목록 페이지로 이동
 			url = "redirect:dept";
 		}
 		return url;
@@ -80,7 +87,7 @@ public class DeptController {
 	}
 	
 	// 삭제
-	// 배운거 쓰려고 내 마음대로 해봄
+	// 배운거 쓰려고 내 마음대로 해봄 
 	@PostMapping("/{deptId}/remove")
 	public String deptDelete(@PathVariable Long deptId, RedirectAttributes ra) {
 		DeptVO findVO = deptService.deptInfo(deptId);
@@ -88,6 +95,7 @@ public class DeptController {
 		Map<String, Object> result = deptService.deptDelete(findVO);
 		ra.addAttribute("deptId", result.get("deptid"));
 		ra.addAttribute("status", true);
+		// 예상경로 /dept?deptId=?&status=true
 		return "redirect:/dept";
 	}
 	
