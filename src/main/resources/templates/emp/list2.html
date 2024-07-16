@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/layouts/default_layout}"
+				layout:fragment="Content">
+<head>
+<meta charset="UTF-8">
+<meta name="contextPath"
+	th:value="${#httpServletRequest.getContextPath()}">
+<!--/* JSP ${pageContext.request.contextPath} */-->
+<title>Insert title here</title>
+</head>
+<body >
+	<h1>전체 사원 조회</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>사원번호</th>
+				<th>이름</th>
+				<th>상사번호</th>
+				<th>급여</th>
+				<th>부서번호</th>
+				<th>입사일자</th>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="emp, empStat : ${empList}">
+				<tr>
+				<!--/* 
+				<tr th:onclick="|location.href='@{/empInfo(empid=${emp.empid})}'|">
+				 */-->
+					<td th:text="${emp.empid}"></td>
+					<td th:text="${emp.empname}"></td>
+					<td>[[ ${emp.mgr} ]]</td>
+					<!--/* <td th:text="${emp.sal}"></td> */-->
+					<td th:text="${#numbers.formatInteger(emp.sal, 3, 'COMMA')+ '원'}"></td>
+					<td th:text="${emp.deptid}"></td>
+					<!--/* <td th:text="${emp.hiredate}"></td> */-->
+					<td th:text="${#dates.format(emp.hiredate, 'yyyy년MM월dd일')}"></td>
+				</tr>
+			</th:block>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		const context = $('meta[name="contextPath"]').attr('value');
+		console.log(context);
+		$('tbody > tr').on('click', function(e){
+			// 만약 td에 버튼이 있다면 이렇게 클릭 이벤트를 제외 시켜줄 수 있다.
+			if(e.target.tagName == 'BUTTON') return;
+			let eId = $(e.currentTarget).children().first().text();
+			let url = context + '/empInfo?empid=' + eId;
+			console.log(url);
+			location.href = url;
+		});
+	</script>
+</body>
+</html>

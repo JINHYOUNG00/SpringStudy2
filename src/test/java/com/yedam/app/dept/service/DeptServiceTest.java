@@ -4,7 +4,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -15,14 +15,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.yedam.app.dept.mapper.DeptMapper;
 
-import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
-@Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DeptServiceTest {
 	
 	@Autowired DeptMapper deptMapper;
+	
+	@BeforeEach
+	void before() {
+		
+	}
 
 	@Test
 	@Order(1)

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-				layout:decorate="~{common/layouts/default_layout}"
-				layout:fragment="Content">
+<html th:replace="~{common/layouts/base :: layout(~{::title}, ~{::section}, ~{::link})}"
+		xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="contextPath"
 	th:value="${#httpServletRequest.getContextPath()}">
+<!-- 개인 스타일 시트 -->
+<link rel="stylesheet" href="/a.css">
 <!--/* JSP ${pageContext.request.contextPath} */-->
-<title>Insert title here</title>
+<title>사원 리스트</title>
 </head>
-<body >
+<body>
+<section>
 	<h1>전체 사원 조회</h1>
 	<table>
 		<thead>
@@ -41,7 +42,7 @@
 			</th:block>
 		</tbody>
 	</table>
-	<script type="text/javascript">
+ 	<script type="text/javascript">
 		const context = $('meta[name="contextPath"]').attr('value');
 		console.log(context);
 		$('tbody > tr').on('click', function(e){
@@ -53,5 +54,6 @@
 			location.href = url;
 		});
 	</script>
+</section>
 </body>
 </html>
