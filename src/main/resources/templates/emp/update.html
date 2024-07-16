@@ -1,10 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/layouts/default_layout}"
+				layout:fragment="Content">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>회원 정보 수정</title>
 </head>
-<body>
 
+<body>
+	<div>
+		<form name="updateForm" th:object="${empInfo}">
+			<div>
+				<label>사원번호</label> <input type="number" name="empid" th:field="*{empid}" readonly="readonly">
+			</div>
+			<div>
+				<!--/* 객체선택변수표현식 *{} 이용 */-->
+				<label>이름</label> <input type="text" name="empname" th:field="*{empname}">
+			</div>
+			<div>
+				<label>상사번호</label> <input type="number" name="mgr" th:field="*{mgr}">
+			</div>
+			<div>
+				<label>급여</label> <input type="number" name="sal" th:field="*{sal}">
+			</div>
+			<div>
+				<label>부서번호</label> <input type="number" name="deptid" th:field="*{deptid}">
+			</div>
+			<div>
+				<label>입사일자</label> <input type="date" name="hiredate" th:field="*{hiredate}">
+			</div>
+			<div>
+				<button type="button">수정</button>
+			</div>
+		</form>
+		<script type="text/javascript">
+			// content-type
+			// 1) x-www-form-urlencoded	: QueryString => key=val&key=val...
+			//	 => URLSearchParams
+			// 2) application/json		: JSON => [{"key":"value"},{"key":"value"}]
+			//	=> JSON.stringify();	
+			// 3) mulipart/form-data	: 인코딩 X
+			//	=> FormData
+			$('form[name="updateForm"] button').on('click', updateAjax);
+
+			function updateAjax(event) {
+				// 1) 유효성 체크
+				if (validationCheck() == false) return;
+				// 2) 서버에 보낼 데이터 정리
+				let dataObj = getEmpObj();
+				console.log(dataObj);
+
+				// 3) AJAX => @ResponseBody
+/* 				$.ajax('empUpdate', {
+					type: 'post', 	// 통신할 때 method : get, post, put, delete
+					// => 커맨드 객체, @RequestParam
+					data: dataObj, 	// 기본 객체타입, 자동으로 QueryString 변환
+				})
+					.done(result => {
+						console.log(result);
+					})
+					.fail(err => console.log(err)); */
+					
+				$.ajax('empUpdate', {
+					type: 'post',
+					// => @RequestBody
+					contentType : 'application/json',
+					data : JSON.stringify(dataObj)
+				})
+					.done(result => {
+						console.log(result);
+					})
+					.fail(err => console.log(err));
+				
+			}
+
+			function validationCheck() {
+				let ename = $('[name="empname"]');
+				if (ename.val() == '') {
+					alert('이름은 필수 값 입니다.');
+					ename.focus();
+					return false;
+				}
+
+				let sal = $('[name="sal"]');
+				if (sal.val() < 1000 || sal.val() > 99999) {
+					alert('급여의 범의는 1,000 ~ 99,999 입니다.');
+					sal.focus();
+					return false;
+				}
+				return true;
+			}
+
+			function getEmpObj() {
+				let formAry = $('form[name="updateForm"]').serializeArray();
+				// serializeArray() 사용 시 form의 값이 표현됨
+				// [
+				//		{ name : 'empid', value : '209'},
+				//  	{ name : 'empname', value : 'Hong'}, ...
+				//  ]
+				//  => javascript 에선 FormData
+				console.log(formAry);
+
+				//위의 형식에서 서버단에서 받을 수 있는 형식으로 포맷을 바꿔줘야함
+				let formObj = {};
+				// {empid : 209, ename: 'Hong', ...}
+				$.each(formAry, function (idx, input) {
+					// input = {name : 'empid', value : '209'}
+					formObj[input.name] = input.value;
+					// formObj['empid'] = '209';
+
+					// formObj => {empid : 209, empname : 'Hong', ...}
+				});
+				return formObj;
+			}
+		</script>
+	</div>
 </body>
+
 </html>

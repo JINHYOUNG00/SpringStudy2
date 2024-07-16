@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/layouts/default_layout}"
+				layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사원 정보 등록</title>
 </head>
 <body>
-
+	<div>
+		<form name="insertForm" th:action="@{/empInsert}" method="post">
+			<div>
+				<label>이름</label> <input type="text" name="empname">
+			</div>
+			<div>
+				<label>상사번호</label> <input type="number" name="mgr">
+			</div>
+			<div>
+				<label>급여</label> <input type="number" name="sal">
+			</div>
+			<div>
+				<label>부서번호</label> <input type="number" name="deptid">
+			</div>
+			<div>
+				<label>입사일자</label> <input type="date" name="hiredate">
+			</div>
+			<div>
+				<button type="submit">등록</button>
+			</div>
+		</form>
+		<script type="text/javascript">
+			// document.querySelector('form[name="insertForm"]');
+			insertForm.addEventListener('submit', function(e){
+				e.preventDefault();
+				
+				let ename = document.querySelector('input[name="empname"]');
+				if(ename.value == ''){
+					alert('이름값은 필수입니다.');
+					ename.focus();
+					return;
+				}
+				let mgr = document.querySelector('input[name="mgr"]');
+				if(mgr.value == ''){
+					alert('상사id는 필수입니다.');
+					mgr.focus();
+					return;
+				}
+				let sal = document.querySelector('input[name="sal"]');
+				if(sal.value == ''){
+					alert('급여는 필수입니다.');
+					sal.focus();
+					return;
+				} else if(sal.value < 1000 || sal.value > 99999) {
+					sal.value = '';
+					alert('급여 범위는 1000부터 99999 사이입니다.');
+					sal.focus();
+					return;
+				}
+				
+				insertForm.submit();
+			});
+		</script>
+	</div>
 </body>
 </html>

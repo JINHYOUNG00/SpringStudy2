@@ -65,9 +65,9 @@ public class EmpController {
 	
 	// 수정 - 페이지 => 단건조회
 	@GetMapping("empUpdate")
-	public String empUpdateForm(@RequestParam Integer empId, Model model) {
+	public String empUpdateForm(@RequestParam Integer empid, Model model) {
 		EmpVO empVO = new EmpVO();
-		empVO.setEmpid(empId);
+		empVO.setEmpid(empid);
 		
 		EmpVO findVO = empService.empInfo(empVO);
 		model.addAttribute("empInfo", findVO);
@@ -75,21 +75,21 @@ public class EmpController {
 		return "emp/update";
 	}
 	// 수정 - 처리(연산, AJAX => QueryString)
-	@PostMapping("empUpdate")
+//	@PostMapping("empUpdate")
 	@ResponseBody
 	public Map<String, Object> empUpdateAJAXQueryString(EmpVO empVO) {
 		
 		return empService.empUpdate(empVO);
 	}
 	// 수정 - 처리(연산, AJAX => JSON : @RequestBody)
-//	@PostMapping("empUpdate")
+	@PostMapping("empUpdate")
 	@ResponseBody
 	public Map<String, Object> empUpdateAJAXJSON(@RequestBody EmpVO empVO) {
 		
 		return empService.empUpdate(empVO);
 	}
 	// 삭제 - 처리
-	@GetMapping
+	@GetMapping("empDelete")
 	public String empDelete(EmpVO empVO) {
 		empService.empDelete(empVO);
 		
