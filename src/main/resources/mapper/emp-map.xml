@@ -10,6 +10,12 @@
 				deptid,
 				hiredate
 		FROM emp
+		<!-- 다이나믹 SQL을 이용 예시 -->
+		<where>
+			<if test="emp.empname != null and !emp.enpname.equals('')">
+				and empname = #{emp.empname}
+			</if>
+		</where>
 		<!-- ORDER BY ${keyword} -->
 		<!-- 
 			#{} : PrepareStatemant => 데이터 타입에 따른 작업
@@ -66,10 +72,14 @@
 	<!-- 매개변수가 2개 이상일땐 parameterType 생략 -->
 	<update id="updateEmpInfo">
 		UPDATE emp
-		SET empname = #{emp.empname},
+		<set>
+			<if test="emp.empname != null and !emp.empname.equals('')">
+				empname = #{emp.empname},
+			</if>
 			sal = #{emp.sal},
 			mgr = #{emp.mgr},
 			deptid = #{emp.deptid}
+		</set>
 		WHERE empid = #{id}
 	</update>
 	

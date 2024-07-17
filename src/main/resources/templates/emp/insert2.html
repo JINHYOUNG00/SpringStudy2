@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html th:replace="~{common/layouts/base :: layout(~{::title}, ~{::section}, ~{::link})}"
-		xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{common/layouts/default_layout}"
+				layout:fragment="Content">
 <head>
 <meta charset="UTF-8">
 <title>사원 정보 등록</title>
-<!-- 개인 스타일 시트 -->
-<link rel="stylesheet" href="/a.css">
 </head>
 <body>
-<section>
-<div>
+	<div>
 		<form name="insertForm" th:action="@{/empInsert}" method="post">
 			<div>
 				<label>이름</label> <input type="text" name="empname">
@@ -63,7 +62,5 @@
 			});
 		</script>
 	</div>
-</section>
-	
 </body>
 </html>

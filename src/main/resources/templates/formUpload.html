@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form 방식</title>
+</head>
+<body>
+    <!-- enctype="multipart/form-data" 파일업로드시 인코딩타입 중요!!! -->
+    <!-- MultipartResolver => Content-type : Multipart/form-data -->
+	<form action="uploadForm" method="post"	enctype="multipart/form-data">
+		<input type="file" name="images" multiple>
+		<button type="submit">저장</button>
+	</form>
+</body>
+</html>
